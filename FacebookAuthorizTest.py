@@ -31,8 +31,8 @@ try:
     try:
         for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
            browser.add_cookie(cookie)
-    except FileNotFoundError:                                                                                        #если файла не существует исполнить блок вводы данных
-        
+            
+    except FileNotFoundError:                                                                                        #если файла не существует исполнить блок вводы данных    
         email = browser.find_element_by_id('email')     
         email.send_keys(data['email'])                                                                               #ввод логина
 
@@ -42,19 +42,16 @@ try:
         btn = browser.find_element_by_id('u_0_b')   
         btn.click()                                                                                                  #клик по кнопке вход
         time.sleep(4)
-     
-        
        
         pickle.dump(browser.get_cookies(), open('session','wb'))                                                     #сохранение куков(сессии)
         print('Вход в профиль')
+    
     else:
-        
         browser.refresh()                                                                                            #перезагрузка при получении куков
         print('Использование прошлой сессии')
-    time.sleep(3)
+        time.sleep(3)
     
 finally:
-
     time.sleep(5)
 
     browser.quit()
