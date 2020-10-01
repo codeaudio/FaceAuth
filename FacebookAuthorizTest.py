@@ -4,7 +4,7 @@ import fake_useragent
 import pickle
 from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
-link = "https://www.facebook.com/"                                                                                  #ссылка на тестируумую страницу
+link = "https://www.facebook.com/"                                                                                  #ссылка на тестируемую страницу
 
 data = {                                                                                                            #список с данными
 'email': 'nicehotgame@gmail.com',                                                                                   #логин
@@ -23,7 +23,7 @@ try:
     options = Options()
     user_agent = fake_useragent.UserAgent() 
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'       #фейковый юзер агент
-    options.add_argument(f'user-agent={user_agent}')                                                                 #добавалвение фейкового юзер агента
+    options.add_argument(f'user-agent={user_agent}')                                                                 #добавление фейкового юзер агента
     browser = webdriver.Chrome(chrome_options=options)                                                               #добавление опции хрому
     print(user_agent)
     browser.get(link)     
@@ -32,7 +32,7 @@ try:
         for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
            browser.add_cookie(cookie)
             
-    except FileNotFoundError:                                                                                        #если файла не существует исполнить блок вводы данных    
+    except FileNotFoundError:                                                                                        #если файла не существует, то исполнить блок ввода данных    
         email = browser.find_element_by_id('email')     
         email.send_keys(data['email'])                                                                               #ввод логина
 
