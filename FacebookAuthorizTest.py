@@ -25,7 +25,6 @@ try:
 
 except FileNotFoundError:                                                                                        #если файла не существуетб то исполнить блок вводы данных       
     cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                 #ключ для расшифровки
-    print(cipher_key) 
 
     encrypted_text = data['pass']                                                                                #строка парля из словаря
 
@@ -40,6 +39,7 @@ except FileNotFoundError:                                                       
 
     btn = browser.find_element_by_id('u_0_b')   
     btn.click()                                                                                                  #клик по кнопке вход
+    
     time.sleep(3)
      
     pickle.dump(browser.get_cookies(), open('session','wb'))                                                     #сохранение куков(сессии)
