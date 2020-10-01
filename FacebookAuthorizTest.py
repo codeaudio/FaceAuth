@@ -7,7 +7,7 @@ from cryptography.fernet import Fernet
 link = "https://www.facebook.com/"                                                                                  #ссылка на тестируумую страницу
 
 data = {                                                                                                            #список с данными
-'email': 'nicehotgame@gmail.com',                                                                                             #логин
+'email': 'nicehotgame@gmail.com',                                                                                   #логин
 'pass': b'gAAAAABfdDKhHAJG-J6XxjE4N-8ODSmwmU7FGZqvCPV8pjlbNUWvXad5Dg7K9mGX3AFlAGI4c2NoMumgQj3tO8Uaj77flRai_w=='     #зашифрованный пароль
 }
 cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                        #ключ для расшифровки
