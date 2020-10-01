@@ -10,6 +10,7 @@ data = {                                                                        
 'email': 'nicehotgame@gmail.com',                                                                                   #логин
 'pass': b'gAAAAABfdDKhHAJG-J6XxjE4N-8ODSmwmU7FGZqvCPV8pjlbNUWvXad5Dg7K9mGX3AFlAGI4c2NoMumgQj3tO8Uaj77flRai_w=='     #зашифрованный пароль
 }
+
 cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                        #ключ для расшифровки
 print(cipher_key) 
 
@@ -17,9 +18,7 @@ encrypted_text = data['pass']                                                   
 
 cipher = Fernet(cipher_key)
 decrypted_text = cipher.decrypt(encrypted_text)                                                                     #расшифровка пароля
-
                                  
-
 try:
     options = Options()
     user_agent = fake_useragent.UserAgent() 
@@ -27,7 +26,8 @@ try:
     options.add_argument(f'user-agent={user_agent}')                                                                 #добавалвение фейкового юзер агента
     browser = webdriver.Chrome(chrome_options=options)                                                               #добавление опции хрому
     print(user_agent)
-    browser.get(link)       
+    browser.get(link)     
+    
     try:
         for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
            browser.add_cookie(cookie)
