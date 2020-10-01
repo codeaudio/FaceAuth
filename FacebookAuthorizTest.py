@@ -41,13 +41,16 @@ try:
 
         btn = browser.find_element_by_id('u_0_b')   
         btn.click()                                                                                                  #клик по кнопке вход
-        time.sleep(3)
+        time.sleep(4)
+     
+        
+       
         pickle.dump(browser.get_cookies(), open('session','wb'))                                                     #сохранение куков(сессии)
-    
+        print('Вход в профиль')
     else:
         
         browser.refresh()                                                                                            #перезагрузка при получении куков
-    
+        print('Использование прошлой сессии')
     time.sleep(3)
     
 finally:
