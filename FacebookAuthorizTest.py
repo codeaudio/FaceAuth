@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
 link = "https://www.facebook.com/"                                                                                  #ссылка на тестируемую страницу
 
-data = {                                                                                                            #список с данными
+data = {                                                                                                            #словаь с данными для входа
 'email': 'nicehotgame@gmail.com',                                                                                   #логин
 'pass': b'gAAAAABfdDKhHAJG-J6XxjE4N-8ODSmwmU7FGZqvCPV8pjlbNUWvXad5Dg7K9mGX3AFlAGI4c2NoMumgQj3tO8Uaj77flRai_w=='     #зашифрованный пароль
 }
