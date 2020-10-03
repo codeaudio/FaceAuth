@@ -4,6 +4,9 @@ import pickle
 import time
 from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 link = "https://www.facebook.com/"                                                                                  #ссылка на тестируемую страницу
 
@@ -40,7 +43,9 @@ except FileNotFoundError:                                                       
     password = browser.find_element_by_id('pass')    
     password.send_keys(bytes.decode(decrypted_text, 'utf-8'))                                                    #ввод пароля и перевод из bytes в str
 
-    btn = browser.find_element_by_id('u_0_b')   
+    btn =WebDriverWait(browser, 5).until(
+        EC.element_to_be_clickable((By.ID,'u_0_b'))
+        )
     btn.click()                                                                                                  #клик по кнопке вход    
      
     pickle.dump(browser.get_cookies(), open('session','wb'))                                                     #сохранение куков(сессии)
@@ -49,7 +54,7 @@ except FileNotFoundError:                                                       
 else:        
     browser.refresh()                                                                                            #перезагрузка при получении куков
     print('Использование прошлой сессии')
-    
+
 finally:
     time.sleep(5)
     browser.get_screenshot_as_file('screen.png')
