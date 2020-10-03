@@ -16,13 +16,13 @@ options = Options()
 user_agent = fake_useragent.UserAgent() 
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'       #фейковый юзер агент
 options.add_argument(f'user-agent={user_agent}')                                                                                         #добавление фейкового юзер агента
-browser = webdriver.Chrome(chrome_options=options)                                                                                       #добавление опции хрому
-browser.implicitly_wait(5)
 print(user_agent)
 
-try:   
-    browser.get(link)     
-    
+browser = webdriver.Chrome(chrome_options=options)                                                                                       #добавление опции хрому
+browser.implicitly_wait(5)
+browser.get(link)  
+
+try:          
     for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
         browser.add_cookie(cookie)
 
