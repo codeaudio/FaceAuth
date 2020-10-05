@@ -1,8 +1,5 @@
 from selenium import webdriver
-import fake_useragent
-import pickle
-import time
-import pytest
+import fake_useragent, pickle, time, pytest
 from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
 from selenium.webdriver.support.ui import WebDriverWait
@@ -70,4 +67,3 @@ class TestFacebook():
 if __name__ == "__main__":
 
     TestFacebook()
-    
