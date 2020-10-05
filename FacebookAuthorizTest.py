@@ -28,8 +28,8 @@ def browser():
     browser.implicitly_wait(10)
     browser.get(link) 
     yield browser                                                                                                                           #этот код выполнится после завершения теста
+    time.sleep(2)                                                                                                                           
     pickle.dump(browser.get_cookies(), open('session','wb'))                                                                                #сохранение куков(сессии)
-    time.sleep(2)
     browser.get_screenshot_as_file('screen.png')
     print("\nquit browser...")
     browser.quit()
