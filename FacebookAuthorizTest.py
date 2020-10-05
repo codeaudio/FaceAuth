@@ -1,7 +1,6 @@
 from selenium import webdriver
 import fake_useragent
 import pickle
-import time
 from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
 from selenium.webdriver.support.ui import WebDriverWait
@@ -26,16 +25,22 @@ class TestFacebook():
         options.add_argument(f'user-agent={user_agent}')                                                                                         #добавление фейкового юзер агента
         print(user_agent)
         self.browser = webdriver.Chrome(options=options)                                                                                         #добавление опции хрому
-        self.browser.implicitly_wait(5)
+        self.browser.implicitly_wait(7)
         self.browser.get(link) 
 
+    @classmethod
+    def teardown_class(self):
+        pickle.dump(self.browser.get_cookies(), open('session','wb'))                                                   #сохранение куков(сессии)
+        self.browser.get_screenshot_as_file('screen.png')
+        self.browser.quit()
+    
     def test_auth(self):
         try:      
             for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
                 self.browser.add_cookie(cookie)
             else:
                 self.browser.refresh()     
-                    
+                print('Использование прошлой сессии')    
         except FileNotFoundError:                                                                                        #если файла не существуетб то исполнить блок вводы данных       
             cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                 #ключ для расшифровки
 
@@ -54,14 +59,9 @@ class TestFacebook():
                 EC.element_to_be_clickable((By.ID,'u_0_b'))
                 )
             btn.click()                                                                                                  #клик по кнопке вход    
-            
-        finally:
-            time.sleep(1)
-            pickle.dump(self.browser.get_cookies(), open('session','wb'))                                                #сохранение куков(сессии)
             print('Вход в профиль')
-            self.browser.get_screenshot_as_file('screen.png')
-            self.browser.quit()
 
 if __name__ == "__main__":
 
     TestFacebook()
+
