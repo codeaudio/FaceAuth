@@ -25,7 +25,7 @@ def browser():
     options.add_argument(f'user-agent={user_agent}')                                                                                        #добавление фейкового юзер агента
     print(user_agent)
     browser = webdriver.Chrome(options=options)                                                                                             #добавление опции хрому
-    browser.implicitly_wait(5)
+    browser.implicitly_wait(10)
     browser.get(link) 
     yield browser                                                                                                                           #этот код выполнится после завершения теста
     pickle.dump(browser.get_cookies(), open('session','wb'))                                                                                #сохранение куков(сессии)
@@ -43,7 +43,7 @@ class TestFacebook():
             else:
                 browser.refresh()     
                 print('\nИспользование прошлой сессии')    
-                
+
         except FileNotFoundError:                                                                                        #если файла не существуетб то исполнить блок вводы данных       
             cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                 #ключ для расшифровки
 
@@ -65,6 +65,6 @@ class TestFacebook():
             print('\nВход в профиль')
 
 if __name__ == "__main__":
-
+    
     TestFacebook()
     
