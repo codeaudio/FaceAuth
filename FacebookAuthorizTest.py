@@ -25,7 +25,7 @@ def browser():
     options.add_argument(f'user-agent={user_agent}')                                                                                        #добавление фейкового юзер агента
     print(user_agent)
     browser = webdriver.Chrome(options=options)                                                                                             #добавление опции хрому
-    browser.implicitly_wait(6)
+    browser.implicitly_wait(5)
     browser.get(link) 
     yield browser                                                                                                                           #этот код выполнится после завершения теста
     time.sleep(2)                                                                                                                           
@@ -60,19 +60,28 @@ class TestFacebook():
                 EC.element_to_be_clickable((By.ID,'u_0_b'))
                 )
             btn.click()                                                                                                  #клик по кнопке вход  
-            pickle.dump(browser.get_cookies(), open('session','wb'))                                                     #сохранение куков(сессии)
-            print('\nВход в профиль')
+            try:                                                                                                         
+                if browser.find_element_by_class_name('p361ku9c'):
+                    pickle.dump(browser.get_cookies(), open('session','wb'))                                             #сохранение куков(сессии)
+                    print('\nВход в профиль')
+                    print('\nСохранение сессии')
+            except NoSuchElementException:
+                pytest.fail('Авторизация провалена. Сессия не сохранена')
+                
     def test_loading_homepag(test_get_cookie_auth, browser):
         try:
             if browser.find_element_by_class_name('p361ku9c'):
-                print('Страница загружена') 
+                print('\nСтраница загружена') 
             
         except NoSuchElementException:
-            print('Страница не загрузилась')
-            file_path = r'session'
-            os.remove(file_path)
-            return browser.find_element_by_class_name('p361ku9c') == False
-    
+            try:
+                print('\nСтраница не загрузилась')
+                file_path = r'session'
+                os.remove(file_path)
+                return browser.find_element_by_class_name('p361ku9c') == False
+            except  FileNotFoundError:
+                pytest.skip('Тест загрузки страницы пропущен')
+           
 if __name__ == "__main__":
 
     TestFacebook()
