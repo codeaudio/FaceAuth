@@ -20,6 +20,9 @@ data = {                                                                        
 def browser():
     print("\nstart browser for test..")
     options = Options()
+    #options.headless = True                                                                                                                
+    #options.add_argument("--disable-gpu")
+    #options.add_argument("--disable-extensions")
     user_agent = fake_useragent.UserAgent() 
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'      #фейковый юзер агент
     options.add_argument(f'user-agent={user_agent}')                                                                                        #добавление фейкового юзер агента
@@ -65,6 +68,6 @@ class TestFacebook():
             print('\nВход в профиль')
 
 if __name__ == "__main__":
-    
+
     TestFacebook()
     
