@@ -36,7 +36,7 @@ def browser():
 
 class TestFacebook(): 
 
-    def test_auth(self,browser):
+    def test_auth(self, browser):
         try:      
             for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
                 browser.add_cookie(cookie)
