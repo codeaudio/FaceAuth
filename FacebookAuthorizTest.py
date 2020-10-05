@@ -1,6 +1,7 @@
 from selenium import webdriver
 import fake_useragent
 import pickle
+import time
 from selenium.webdriver.chrome.options import Options
 from cryptography.fernet import Fernet
 from selenium.webdriver.support.ui import WebDriverWait
@@ -25,12 +26,13 @@ class TestFacebook():
         options.add_argument(f'user-agent={user_agent}')                                                                                         #добавление фейкового юзер агента
         print(user_agent)
         self.browser = webdriver.Chrome(options=options)                                                                                         #добавление опции хрому
-        self.browser.implicitly_wait(7)
+        self.browser.implicitly_wait(5)
         self.browser.get(link) 
 
     @classmethod
     def teardown_class(self):
         pickle.dump(self.browser.get_cookies(), open('session','wb'))                                                   #сохранение куков(сессии)
+        time.sleep(2)
         self.browser.get_screenshot_as_file('screen.png')
         self.browser.quit()
     
