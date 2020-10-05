@@ -37,7 +37,7 @@ class TestFacebook():
 
     def test_get_cookie_auth(self, browser):
         try:      
-            for cookie in pickle.load(open('session','rb')):                                                             #чтение файла куков
+            for cookie in pickle.load(open('session', 'rb')):                                                             #чтение файла куков
                     browser.add_cookie(cookie)                        
             else:
                 browser.refresh()
@@ -68,7 +68,7 @@ class TestFacebook():
             except NoSuchElementException:
                 pytest.fail('Авторизация провалена. Сессия не сохранена')
                 
-    def test_loading_homepag(test_get_cookie_auth, browser):
+    def test_loading_homepage(test_get_cookie_auth, browser):
         try:
             if browser.find_element_by_class_name('p361ku9c'):
                 print('\nСтраница загружена') 
