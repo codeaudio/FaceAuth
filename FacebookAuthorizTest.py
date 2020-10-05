@@ -21,14 +21,14 @@ def browser():
     print("\nstart browser for test..")
     options = Options()
     user_agent = fake_useragent.UserAgent() 
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'       #фейковый юзер агент
-    options.add_argument(f'user-agent={user_agent}')                                                                                         #добавление фейкового юзер агента
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'      #фейковый юзер агент
+    options.add_argument(f'user-agent={user_agent}')                                                                                        #добавление фейкового юзер агента
     print(user_agent)
-    browser = webdriver.Chrome(options=options)                                                                                              #добавление опции хрому
+    browser = webdriver.Chrome(options=options)                                                                                             #добавление опции хрому
     browser.implicitly_wait(5)
     browser.get(link) 
-    yield browser                                                                                                                           # этот код выполнится после завершения теста
-    pickle.dump(browser.get_cookies(), open('session','wb'))                                                                           #сохранение куков(сессии)
+    yield browser                                                                                                                           #этот код выполнится после завершения теста
+    pickle.dump(browser.get_cookies(), open('session','wb'))                                                                                #сохранение куков(сессии)
     time.sleep(2)
     browser.get_screenshot_as_file('screen.png')
     print("\nquit browser...")
