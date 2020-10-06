@@ -37,9 +37,9 @@ def browser():
 
 class TestFacebook(): 
 
-    def test_auth(self, browser):                                                                                       #тест входа на страницу и сохранение сессии 
+    def test_auth(self, browser):                                                                                         #тест входа на страницу и сохранение сессии 
         try:      
-            for cookie in pickle.load(open('session', 'rb')):                                                           #чтение файла куков
+            for cookie in pickle.load(open('session', 'rb')):                                                             #чтение файла куков
                     browser.add_cookie(cookie)                                         
             else:
                 browser.refresh()
@@ -63,7 +63,7 @@ class TestFacebook():
                 )
             btn.click()                                                                                                  #клик по кнопке вход  
             try:                                                                                                         
-                if browser.find_element_by_class_name('p361ku9c'):
+                if  browser.find_element_by_class_name('p361ku9c'):
                     pickle.dump(browser.get_cookies(), open('session','wb'))                                             #сохранение куков(сессии)
                     browser.get_screenshot_as_file('screen_start_page.png')
                     print('\nВход в профиль')
@@ -79,14 +79,12 @@ class TestFacebook():
             time.sleep(1)
             current_page_url = browser.current_url
             assert current_page_url == "https://www.facebook.com/profile.php?id=100009451024270"
-            print('\nСтраница загружена') 
-        except (NoSuchElementException, AssertionError):
+            print('\nСтраница профиля загружена') 
+        except (AssertionError, NoSuchElementException):
             try:
-                print('\nСтраница не загрузилась')
-                file_path = r'session'
-                os.remove(file_path)
-                return browser.find_element_by_class_name('p361ku9c') == False
-            except  FileNotFoundError:
+                os.remove(r'session')
+                raise
+            except FileNotFoundError:    
                 pytest.skip('Тест загрузки страницы пропущен')
            
 if __name__ == "__main__":
