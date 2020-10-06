@@ -22,23 +22,25 @@ def browser():
     #options.add_argument("--disable-extensions")
     user_agent = fake_useragent.UserAgent() 
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'      #фейковый юзер агент
+    notific = {"profile.default_content_setting_values.notifications" : 2}
+    options.add_experimental_option("prefs",notific)
     options.add_argument(f'user-agent={user_agent}')                                                                                        #добавление фейкового юзер агента
     print(user_agent)
     browser = webdriver.Chrome(options=options)                                                                                             #добавление опции хрому
     browser.implicitly_wait(5)
     browser.get(link) 
     yield browser                                                                                                                           #этот код выполнится после завершения теста
-    time.sleep(2)                                                                                                                           
-    browser.get_screenshot_as_file('screen.png')
+    time.sleep(1)                                                                                                                           
+    browser.get_screenshot_as_file('screen_last_page.png')
     print("\nquit browser...")
     browser.quit()
 
 class TestFacebook(): 
 
-    def test_get_cookie_auth(self, browser):
+    def test_auth(self, browser):                                                                                       #тест входа на страницу и сохранение сессии 
         try:      
-            for cookie in pickle.load(open('session', 'rb')):                                                             #чтение файла куков
-                    browser.add_cookie(cookie)                        
+            for cookie in pickle.load(open('session', 'rb')):                                                           #чтение файла куков
+                    browser.add_cookie(cookie)                                         
             else:
                 browser.refresh()
                 print('\nИспользование прошлой сессии')  
@@ -63,17 +65,22 @@ class TestFacebook():
             try:                                                                                                         
                 if browser.find_element_by_class_name('p361ku9c'):
                     pickle.dump(browser.get_cookies(), open('session','wb'))                                             #сохранение куков(сессии)
+                    browser.get_screenshot_as_file('screen_start_page.png')
                     print('\nВход в профиль')
                     print('\nСохранение сессии')
             except NoSuchElementException:
                 pytest.fail('Авторизация провалена. Сессия не сохранена')
                 
-    def test_loading_homepage(test_get_cookie_auth, browser):
+    def test_loading_profile(test_auth, browser):                                                                        #тест загрузки профиля
         try:
-            if browser.find_element_by_class_name('p361ku9c'):
-                print('\nСтраница загружена') 
-            
-        except NoSuchElementException:
+            time.sleep(2)  
+            profile_ico = browser.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div/div[1]/a/div[1]/div')
+            profile_ico.click()
+            time.sleep(1)
+            current_page_url = browser.current_url
+            assert current_page_url == "https://www.facebook.com/profile.php?id=100009451024270"
+            print('\nСтраница загружена') 
+        except (NoSuchElementException, AssertionError):
             try:
                 print('\nСтраница не загрузилась')
                 file_path = r'session'
