@@ -63,16 +63,17 @@ class TestFacebook():
                 )
             btn.click()                                                                                                  #клик по кнопке вход  
             try:                                                                                                         
-                if  browser.find_element_by_class_name('p361ku9c'):
-                    pickle.dump(browser.get_cookies(), open('session','wb'))                                             #сохранение куков(сессии)
-                    browser.get_screenshot_as_file('screen_start_page.png')
-                    print('\nВход в профиль')
-                    print('\nСохранение сессии')
+                assert browser.find_element_by_class_name('p361ku9c')
+                pickle.dump(browser.get_cookies(), open('session','wb'))                                         #сохранение куков(сессии)
+                browser.get_screenshot_as_file('screen_start_page.png')
+                print('\nВход в профиль')
+                print('\nСохранение сессии')
             except NoSuchElementException:
-                pytest.fail('Авторизация провалена. Сессия не сохранена')
+                raise
                 
     def test_loading_profile(test_auth, browser):                                                                        #тест загрузки профиля
         try:
+            assert os.path.isfile('session')
             time.sleep(2)  
             profile_ico = browser.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div/div[1]/a/div[1]/div')
             profile_ico.click()
@@ -80,11 +81,11 @@ class TestFacebook():
             current_page_url = browser.current_url
             assert current_page_url == "https://www.facebook.com/profile.php?id=100009451024270"
             print('\nСтраница профиля загружена') 
-        except (AssertionError, NoSuchElementException):
+        except (AssertionError, NoSuchElementException, FileNotFoundError):
             try:
                 os.remove(r'session')
                 raise
-            except FileNotFoundError:    
+            except FileNotFoundError:
                 pytest.skip('Тест загрузки страницы пропущен')
            
 if __name__ == "__main__":
