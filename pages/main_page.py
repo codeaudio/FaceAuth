@@ -8,8 +8,6 @@ from selenium.common.exceptions import NoSuchElementException
 from .base_page import BasePage
 from .locators import MainPageLocators
 
-                                                                                 
-
 data = {                                                                                                            #словаь с данными для входа
 'email': 'nicehotgame@gmail.com',                                                                                   #логин
 'pass': b'gAAAAABfdDKhHAJG-J6XxjE4N-8ODSmwmU7FGZqvCPV8pjlbNUWvXad5Dg7K9mGX3AFlAGI4c2NoMumgQj3tO8Uaj77flRai_w=='     #зашифрованный пароль
@@ -67,8 +65,3 @@ class MainPage(BasePage):
             except FileNotFoundError:                                                                                    #проверка отсутвия файла куков
                 pytest.skip('Тест загрузки страницы пропущен')                                                           #пропуск теста
            
-
-
-    
-
-
