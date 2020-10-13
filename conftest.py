@@ -1,11 +1,8 @@
 from selenium import webdriver
-import fake_useragent, pickle, time, pytest, os
+import fake_useragent, time, pytest
 from selenium.webdriver.chrome.options import Options
-from cryptography.fernet import Fernet
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 
 def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default= 'chrome',
@@ -13,7 +10,7 @@ def pytest_addoption(parser):
     parser.addoption('--language_name', action='store', default= 'en',
                      help="Dedault browser: ru")
 
-@pytest.fixture(scope="class") 
+@pytest.fixture(scope="module") 
 def browser(request):
     print("\nstart browser for test..")
     options = Options()
