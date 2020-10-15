@@ -7,6 +7,7 @@ link = "https://www.facebook.com/"
 
 @pytest.mark.user_login
 class TestGoToUserPage:
+    
     def test_authoriz_facebok(self, browser):
         page = MainPage(browser, link)
         page.open()
