@@ -5,17 +5,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 
 def pytest_addoption(parser):
-    parser.addoption('--browser_name', action='store', default= 'chrome',
+    parser.addoption('--browser', action='store', default= 'chrome',
                      help="Dedault browser: chrome. You can choose a browser: chrome/firefox")
-    parser.addoption('--language_name', action='store', default= 'en',
-                     help="Dedault browser: ru")
+    parser.addoption('--language', action='store', default= 'ru',
+                     help="Dedault browser: ru. You can choose any language")
 
-@pytest.fixture(scope="module") 
+@pytest.fixture(scope="function") 
 def browser(request):
     print("\nstart browser for test..")
     options = Options()
-    browser_name = request.config.getoption("browser_name")
-    language_name = request.config.getoption("language_name")
+    browser_name = request.config.getoption("browser")
+    language_name = request.config.getoption("language")
     #options.headless = True                                                                                                                
     #options.add_argument("--disable-gpu")
     #options.add_argument("--disable-extensions")
@@ -38,10 +38,10 @@ def browser(request):
         browser = webdriver.Firefox(firefox_profile=fp)  
     else:
         raise pytest.UsageError("--browser_name should be chrome/firefox")
-    browser.implicitly_wait(5)
+    browser.implicitly_wait(4)
      
-    yield browser                                                                                                                           #этот код выполнится после завершения теста
-    time.sleep(1)                                                                                                                           
+    yield browser                                                                                                                           #этот код выполнится после завершения теста                                                                                                                         
     browser.get_screenshot_as_file('screen_last_page.png')
+    time.sleep(1)  
     print("\nquit browser...")
     browser.quit()

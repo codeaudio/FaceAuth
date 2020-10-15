@@ -7,7 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from .base_page import BasePage
 from .locators import MainPageLocators
-
+from .cockieweb import MainPageCookie
+                                                                                
 data = {                                                                                                            #словаь с данными для входа
 'email': 'nicehotgame@gmail.com',                                                                                   #логин
 'pass': b'gAAAAABfdDKhHAJG-J6XxjE4N-8ODSmwmU7FGZqvCPV8pjlbNUWvXad5Dg7K9mGX3AFlAGI4c2NoMumgQj3tO8Uaj77flRai_w=='     #зашифрованный пароль
@@ -18,11 +19,7 @@ class MainPage(BasePage):
     @pytest.mark.smoke 
     def test_auth(self, how, what, timeout = 0):                                                                                     #тест входа на страницу и сохранение сессии 
         try:      
-            for cookie in pickle.load(open('session', 'rb')):                                                           #чтение файла куков
-                    self.browser.add_cookie(cookie)                                         
-            else:
-                self.browser.refresh()
-                print('\nИспользование прошлой сессии')  
+            MainPageCookie.read_cookie(self)
         except FileNotFoundError:                                                                                        #если файла не существует, то исполнить блок вводы данных       
             cipher_key = b'HfASIcnseLe1xKEF244_yEqV_OM9R3tQO_P4ZR7bY00='                                                 #ключ для расшифровки
             encrypted_text = data['pass']                                                                                #строка парля из словаря
@@ -35,7 +32,7 @@ class MainPage(BasePage):
             password = self.browser.find_element(*MainPageLocators.password)    
             password.send_keys(bytes.decode(decrypted_text, 'utf-8'))                                                    #ввод пароля и перевод из bytes в str
 
-            btn = WebDriverWait(self.browser, 5).until(
+            btn = WebDriverWait(self.browser, 4).until(
                 EC.element_to_be_clickable((how, what)))
             btn.click()                                                                                                  #клик по кнопке вход  
             try:                                                                                                         
@@ -51,7 +48,9 @@ class MainPage(BasePage):
     def test_loading_profile(self):                                                                                      #тест загрузки профиля
         try:
             assert os.path.isfile('session')                                                                             #проверка сохраненной сессии
-            time.sleep(2)  
+            MainPageCookie.read_cookie(self)
+            print('\nИспользование прошлой сессии') 
+            time.sleep(1)  
             profile_ico = self.browser.find_element(*MainPageLocators.profile_ico)
             profile_ico.click()                                                                                          #на страницу профиля
             time.sleep(1)
@@ -65,3 +64,8 @@ class MainPage(BasePage):
             except FileNotFoundError:                                                                                    #проверка отсутвия файла куков
                 pytest.skip('Тест загрузки страницы пропущен')                                                           #пропуск теста
            
+
+
+    
+
+
