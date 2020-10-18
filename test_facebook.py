@@ -1,5 +1,4 @@
 from .pages.main_page import MainPage
-from selenium.common.exceptions import NoAlertPresentException
 import pytest
 from selenium.webdriver.common.by import By
 
