@@ -4,6 +4,6 @@ pickleshare==0.7.5
 pyparsing==2.4.7
 pytest==6.1.1
 pytest-rerunfailures==9.1.1
-requests==2.7.0
+requests==2.20.0
 selenium==3.14.0
 virtualenv==20.0.29
