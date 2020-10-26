@@ -1,5 +1,5 @@
 # FacebookAuthorizTest 
-Test is getting cookie and use it next session if cookie be correct to save   
+Test is getting cookies and use it next session if cookie be correct to save   
 You can use commands:  
 pytest -v -s -m smoke --tb=line --reruns (n) --browser_name=chrome test_facebook.py  
 pytest -v -s -m smoke test_facebook.py  
