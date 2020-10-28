@@ -1,4 +1,4 @@
-cryptography==3.1.1
+cryptography==3.2
 fake-useragent==0.1.11
 pickleshare==0.7.5
 pyparsing==2.4.7
